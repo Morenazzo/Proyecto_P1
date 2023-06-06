@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    About
+{% endblock %}
+
+{% block main %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About The Ikigai</title>
+    <style>
+        .content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .content .image {
+            flex: 1;
+            margin-top: 0; /* Removes the top space */
+        }
+        .content .info {
+            flex: 1;
+        }
+        .content .info .button {
+            margin-top: 20px;
+        }
+        h1 {
+            text-align: right; /* Aligns text to the right */
+            margin-bottom: 10px; /* Decreases space under the title */
+        }
+    </style>
+</head>
+<body>
+    <h1>About Ikigai</h1>
+    <div class="content">
+        <div class="image">
+            <img src="https://imageio.forbes.com/blogs-images/chrismyers/files/2018/02/ikigai-1.png?format=png&width=400" alt="Ikigai Concept">
+        </div>
+        <div class="info">
+            <p>
+                Ikigai is a Japanese concept that combines the words "iki" (life) and "gai" (value or worth). It's often translated as "reason for being". It is seen as the convergence of four fundamental components of life: passion, vocation, profession and mission. In other words, where; what you love (your passion), what the world needs (your mission), what you are good at (your vocation) and what you can get paid for (your profession) converge, therein lies your Ikigai. It's a way to find fulfillment, happiness, and balance in life.
+            </p>
+            <a href="/exercise" class="button">Go to Exercise</a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

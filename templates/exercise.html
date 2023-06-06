@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Exercise
+{% endblock %}
+
+{% block main %}
+
+<h1>Ikigai Exercise</h1>
+
+<form action="/submit_exercise" method="post">
+    <label for="love">What You Love:</label><br>
+    <input type="text" id="love" name="love" placeholder="What you love" required><br>
+
+    <label for="needs">What The World Needs:</label><br>
+    <input type="text" id="needs" name="needs" placeholder="What the world needs" required><br>
+
+    <label for="paid">What You Can Get Paid For:</label><br>
+    <input type="text" id="paid" name="paid" placeholder="What you can get paid for" required><br>
+
+    <label for="good">What You Are Good At:</label><br>
+    <input type="text" id="good" name="good" placeholder="What you are good at" required><br>
+
+    <label for="purpose">Purpose:</label><br>
+    <input type="text" id="purpose" name="purpose" placeholder="Your purpose" required><br>
+
+    <label for="passion">Passion:</label><br>
+    <input type="text" id="passion" name="passion" placeholder="Your passion" required><br>
+
+    <label for="mission">Mission:</label><br>
+    <input type="text" id="mission" name="mission" placeholder="Your mission" required><br>
+
+    <label for="vocation">Vocation:</label><br>
+    <input type="text" id="vocation" name="vocation" placeholder="Your vocation" required><br>
+
+    <label for="ikigai">Your Ikigai:</label><br>
+    <input type="text" id="ikigai" name="ikigai" placeholder="Your Ikigai" required><br>
+
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
