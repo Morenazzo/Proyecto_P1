@@ -2,12 +2,11 @@ import os
 import uuid
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
-from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, lookup, usd
+from helpers import apology, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -43,12 +42,8 @@ def exercise():
     """Exercise to fill you ikigai"""
     return render_template("exercise.html")
 
-import uuid
-
 @app.route("/submit_exercise", methods=["POST"])
 def submit_exercise():
-    # Generate a UUID
-    id = str(uuid.uuid4())
 
     love = request.form.get("love")
     needs = request.form.get("needs")
@@ -61,14 +56,32 @@ def submit_exercise():
     ikigai = request.form.get("ikigai")
 
     try:
-        db.execute("INSERT INTO ikigai_responses (id, love, needs, paid, good, purpose, passion, mission, vocation, ikigai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                   id, love, needs, paid, good, purpose, passion, mission, vocation, ikigai)
+        db.execute(
+            "INSERT INTO ikigai_responses (love, needs, paid, good, purpose, passion, mission, vocation, ikigai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            love,
+            needs,
+            paid,
+            good,
+            purpose,
+            passion,
+            mission,
+            vocation,
+            ikigai,
+        )
     except Exception as e:
-        app.logger.error(f'INSERT INTO ikigai_responses (id, love, needs, paid, good, purpose, passion, mission, vocation, ikigai) VALUES ({id}, {love}, {needs}, {paid}, {good}, {purpose}, {passion}, {mission}, {vocation}, {ikigai})')
-        app.logger.error(f'Error while submitting exercise: {e}')
+        app.logger.error(
+            "Error while submitting exercise: %s", e
+        )
         return apology("An error occurred. Please try again.")
 
     return redirect("/thanks")
+
+
+@app.route("/thanks")
+@login_required
+def thanks():
+    """Display thank you message after submitting the exercise."""
+    return render_template("thanks.html")
 
 
 
@@ -76,8 +89,11 @@ def submit_exercise():
 @app.route("/result")
 @login_required
 def result():
-    """Your ikigai result"""
-    return apology("TODO")
+    """Display all stored Ikigai responses."""
+    responses = db.execute(
+        "SELECT * FROM ikigai_responses ORDER BY timestamp DESC"
+    )
+    return render_template("results.html", responses=responses)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -130,8 +146,10 @@ def logout():
 @app.route("/impact", methods=["GET", "POST"])
 @login_required
 def impact():
-    """How to impact more than a million people."""
-    return apology("TODO")
+    """Show how many responses have been submitted."""
+    responses = db.execute("SELECT * FROM ikigai_responses ORDER BY timestamp DESC")
+    count = len(responses)
+    return render_template("impact.html", responses=responses, count=count)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -170,5 +188,8 @@ def register():
 @app.route("/share", methods=["GET", "POST"])
 @login_required
 def share():
-    """Share your results"""
-    return apology("TODO")
+    """Page to share the stored Ikigai responses."""
+    responses = db.execute(
+        "SELECT * FROM ikigai_responses ORDER BY timestamp DESC"
+    )
+    return render_template("share.html", responses=responses)
