@@ -30,8 +30,8 @@ def after_request(response):
 
 
 @app.route("/")
-@login_required
 def about():
+@login_required
     """Teach the Ikigai Concept"""
     return render_template("about.html")
 
